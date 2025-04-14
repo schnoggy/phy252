@@ -1,6 +1,13 @@
 #include <Arduino.h>
+#include <lib/NewTone/NewTone.h>
 
 // put function declarations here:
+#define TONE_PIN 11 // Pin you have speaker/piezo connected to (be sure to include a 100 ohm resistor).
+
+// Melody (liberated from the toneMelody Arduino example sketch by Tom Igoe).
+int melody[] = { 262, 196, 196, 220, 196, 0, 247, 262 };
+int noteDurations[] = { 4, 8, 8, 4, 4, 4, 4, 4 };
+
 int potpin=5;
 int buzzerpin=11;
 int val;
@@ -25,6 +32,7 @@ void loop() {
   //output3: sound pitch/volume
   val = analogRead(potpin);
   val = map(val, 0, 1023, 0, 1000);
+  newtone(buzzerpin, val);
   tone(buzzerpin, val);
   Serial.println(val);
 }
