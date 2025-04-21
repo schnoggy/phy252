@@ -4,7 +4,7 @@
 #include <../lib/NewPing/src/NewPing.h>
 
 // Instead of toneac, maybe use https://forum.arduino.cc/t/pwm-to-analog-voltage/296962/15
-// or https://forum.arduino.cc/t/pwm-to-analog-voltage/296962/15
+// or https://github.com/connornishijima/arduino-volume1#supported-pins
 
   // put function declarations here:
 #define TONE_PIN 10
