@@ -3,7 +3,10 @@
 #include <../lib/toneAC2/toneAC2.h>
 #include <../lib/NewPing/src/NewPing.h>
 
-// put function declarations here:
+// Instead of toneac, maybe use https://forum.arduino.cc/t/pwm-to-analog-voltage/296962/15
+// or https://forum.arduino.cc/t/pwm-to-analog-voltage/296962/15
+
+  // put function declarations here:
 #define TONE_PIN 10
 #define TONE_PIN2 11 // Pin you have speaker/piezo connected to (be sure to include a 100 ohm resistor).
 #define TIMER_ENABLED false
