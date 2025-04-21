@@ -1,3 +1,12 @@
+/*Project for Physics class
+This theramin uses the ultrasonic sensor
+ToDO:
+1. maybe have it arpeggiate through different chords depending on the CM distance instead of pure frequency. It might sound nicer.
+2. Document Phyiscs principals such as frequency, ultrasonic, angles
+3. Document circuit diagram
+4. Prepare presentation/submission
+*/
+
 #include <Arduino.h>
 //#include <../lib/NewTone/NewTone.h>
 //#include <../lib/toneAC2/toneAC2.h>
@@ -47,7 +56,7 @@ void setup() {
   //vol.begin();
   pinMode(buzzerpin, OUTPUT);
   pinMode(prpin, INPUT);
-  //setup analog pot input
+  pinMode(potpin, INPUT);  //setup analog pot input
   //setup analog sensor input
   //setup setup a way to read antenna input
   pinMode(trigger, OUTPUT); // tone sensor                    
@@ -129,11 +138,11 @@ void loop() {
   //uval = map(cm, 0, 100, 80,1000);
 if (uval > 2000)
   {
-    uval = 200;
+    uval = 1800;
   }
-  if (uval < 100)
+  if (uval < 80)
   {
-    uval = 100;
+    uval = 80;
   }
   prval = analogRead(prpin);
   prval = map(prval, 0, 10, 0, 10);
@@ -142,16 +151,18 @@ if (uval > 2000)
     prval = 10;
   }
   val = analogRead(potpin);
-  val = map(val, 0, 1023, 0, 1000);
+  val = map(val, 0, 1023, 200, 2);
 //toneAC2(TONE_PIN, TONE_PIN2, uval, 8, false);
-TimerFreeTone(TONE_PIN, uval, 100, prval);
+TimerFreeTone(TONE_PIN, uval, val, prval);
 //delay(10);
   //vol.tone(uval, prval);
   //vol.delayMicroseconds(2);
   Serial.print("vol: ");
   Serial.print(prval);
   Serial.print("  tone: ");
-  Serial.println(uval);
+  Serial.print(uval);
+  Serial.print("  length: ");
+  Serial.println(val);
 
 
 }
