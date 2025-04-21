@@ -10,7 +10,8 @@
 #define TRIGGER_PIN  3
 #define ECHO_PIN 4 // Arduino pin tied to trigger pin on the ultrasonic sensor.
 #define MIN_DISTANCE   35 
-#define MAX_DISTANCE 200 // Maximum distance we want to ping for (in centimeters).
+#define MAX_DISTANCE 100 // Maximum distance we want to ping for (in centimeters).
+#define PING_INTERVAL 50
 
 NewPing sonar(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE); // the first and the second number are the pins   of the sensor of volume, the third is the maximum distance
 // Melody (liberated from the toneMelody Arduino example sketch by Tom Igoe).
@@ -112,15 +113,25 @@ void loop() {
   Serial.print("cm");
   Serial.println();
   */
+ //Todo:
+ //What would be nice is an arpeggator that plays a sequence starting at an index
+
   uval = 50.0*pow(2,(distance2/12.0));
   //uval = map(cm, 0, 100, 80,1000);
-  
+if (uval > 2000)
+  {
+    uval = 200;
+  }
+  if (uval < 100)
+  {
+    uval = 100;
+  }
   prval = analogRead(prpin);
   prval = map(prval, 0, 100, 100, 1100);
   val = analogRead(potpin);
   val = map(val, 0, 1023, 0, 1000);
-  toneAC2(TONE_PIN, TONE_PIN2, uval);
-  delay(10);
+  toneAC2(TONE_PIN, TONE_PIN2, uval, 8, false);
+  //delay(10);
   Serial.println(uval);
 //  delayMicroseconds(10);
 
