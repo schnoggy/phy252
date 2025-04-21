@@ -1,7 +1,9 @@
 #include <Arduino.h>
 //#include <../lib/NewTone/NewTone.h>
-#include <../lib/toneAC2/toneAC2.h>
+//#include <../lib/toneAC2/toneAC2.h>
 #include <../lib/NewPing/src/NewPing.h>
+//#include <../lib/arduino-volume1/src/Volume.h>
+#include <../lib/timerfreetone/TimerFreeTone.h>
 
 // Instead of toneac, maybe use https://forum.arduino.cc/t/pwm-to-analog-voltage/296962/15
 // or https://github.com/connornishijima/arduino-volume1#supported-pins
@@ -38,9 +40,11 @@ unsigned long TimeResponse;
 float   distance2;
 float tone1;
 long duration, cm, inches;
+//Volume vol;
 
 void setup() {
   Serial.begin(115200);
+  //vol.begin();
   pinMode(buzzerpin, OUTPUT);
   pinMode(prpin, INPUT);
   //setup analog pot input
@@ -93,6 +97,8 @@ void loop() {
   //  while(1); // Stop (so it doesn't repeat forever driving you crazy--you're welcome).
     // The sensor is triggered by a HIGH pulse of 10 or more microseconds.
   // Give a short LOW pulse beforehand to ensure a clean HIGH pulse:
+
+
   digitalWrite(TRIGGER_PIN, LOW);
   delayMicroseconds(5);
   digitalWrite(TRIGGER_PIN, HIGH);
@@ -130,42 +136,22 @@ if (uval > 2000)
     uval = 100;
   }
   prval = analogRead(prpin);
-  prval = map(prval, 0, 100, 100, 1100);
+  prval = map(prval, 0, 10, 0, 10);
+  if (prval > 10)
+  {
+    prval = 10;
+  }
   val = analogRead(potpin);
   val = map(val, 0, 1023, 0, 1000);
-  toneAC2(TONE_PIN, TONE_PIN2, uval, 8, false);
-  //delay(10);
+//toneAC2(TONE_PIN, TONE_PIN2, uval, 8, false);
+TimerFreeTone(TONE_PIN, uval, 100, prval);
+//delay(10);
+  //vol.tone(uval, prval);
+  //vol.delayMicroseconds(2);
+  Serial.print("vol: ");
+  Serial.print(prval);
+  Serial.print("  tone: ");
   Serial.println(uval);
-//  delayMicroseconds(10);
+
 
 }
-/*
-int digitalPotWrite(int value) {
-  digitalWrite(CS, LOW); // this uses SPI protocol   to communicate with the potentiometer and sets the resistance
-  SPI.transfer(address);
-   SPI.transfer(value);
-  digitalWrite(CS, HIGH);
-}
-*/
-
-//Notepad
-
-
-/*
-  This projects is a theremin created with one ultrasonic sensor and a optical potentionmeter,   one controls the frequency (tone) and the other controls the amplitude (volume).
-  Resource   on controlling similar potentiometer using SPI protocol, provides example code and   electrical setup: http://www.learningaboutelectronics.com/Articles/MCP4131-digital-potentiometer-circuit.php
-  It is also using some libraries to enhance the suound quality over the auduino sdk tone()
-  */
-
-/*                                                                                                                                                                                                                                                
-   Potentiometer conecctions:
- 1 - Arduino pin ~9
- 2 - Speaker +
- 3 - GND
-   4 - 5V
- 5 - Arduino pin ~10
- 6 - Arduino pin 13
- 7 - Arduino pin ~11
-   8 - GND
- More info https://app.ultralibrarian.com/details/23D04BE7-10A0-11E9-AB3A-0A3560A4CCCC/Microchip/MCP4161-103E-P
-*/
